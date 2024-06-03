@@ -102,13 +102,16 @@ export const updateProduct = async (req, res) => {
 
         // Mengupdate posisi rak ketika rak berubah
         if (cekProduk.posisiRak !== req.body.posisiRak) {
+            // Mengubah data rak lama
             await Racks.updateOne(
                 { rak: cekProduk.posisiRak },
                 { terisi: 0, produk: null }
             )
+
+            // Mengubah data rak baru
             await Racks.updateOne(
                 { rak: req.body.posisiRak },
-                { terisi: cekProduk.stok, produk: req.body.namaProduk }
+                { terisi: cekProduk.stok, produk: req.body.namaProduk ? req.body.namaProduk : cekProduk.namaProduk }
             )
         }
 
