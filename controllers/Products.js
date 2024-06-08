@@ -67,7 +67,7 @@ export const addProduct = async (req, res) => {
             })
 
         // Mengecek jika stok bukan sama dengan nol
-        if (req.body.stok !== 0) {
+        if (req.body.stok != 0) {
             // Menambahkan data produk masuk ke dalam collection inProducts
             await InProducts.create({
                 kodeProduk: req.body.kodeProduk,
