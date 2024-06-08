@@ -66,6 +66,17 @@ export const addProduct = async (req, res) => {
                 terisi: req.body.stok
             })
 
+        // Mengecek jika stok bukan sama dengan nol
+        if (req.body.stok !== 0) {
+            // Menambahkan data produk masuk ke dalam collection inProducts
+            await InProducts.create({
+                kodeProduk: req.body.kodeProduk,
+                namaProduk: req.body.namaProduk,
+                stokMasuk: req.body.stok,
+                dateInProduct: new Date()
+            })
+        }
+
         res.status(201).json({ msg: 'Produk berhasil ditambahkan!', kodeProduk: req.body.kodeProduk })
     } catch (error) {
         res.sendStatus(500).json({ msg: "Ada kesalahan pada server" })
