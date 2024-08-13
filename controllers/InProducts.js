@@ -33,7 +33,7 @@ export const inProductLast30Days = async (req, res) => {
                 $gte: startDate,
                 $lt: new Date()
             }
-        }, { _id: 0 }).sort({ dateInProduct: 1 })
+        }, { _id: 0 }).sort({ dateInProduct: -1 })
 
         res.json(lastMonthData)
     } catch (error) {

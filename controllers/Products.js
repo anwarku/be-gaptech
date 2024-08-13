@@ -36,8 +36,8 @@ export const addProduct = async (req, res) => {
     try {
         // add field kodeProduk, createdAt and updatedAt
         req.body.kodeProduk = parseInt(generateRandomNumber(13))
-        req.body.createdAt = new Date()
-        req.body.updatedAt = new Date()
+        req.body.createdAt = moment().tz('Asia/Jakarta').format()
+        req.body.updatedAt = moment().tz('Asia/Jakarta').format()
 
         // cek apakah nama produk sudah ada di database
         const cekNamaProduk = await Products.exists({ namaProduk: req.body.namaProduk })
@@ -68,13 +68,13 @@ export const addProduct = async (req, res) => {
             })
 
         // Mengecek jika stok bukan sama dengan nol
-        if (req.body.stok != 0) {
+        if (parseInt(req.body.stok) !== 0) {
             // Menambahkan data produk masuk ke dalam collection inProducts
             await InProducts.create({
                 kodeProduk: req.body.kodeProduk,
                 namaProduk: req.body.namaProduk,
                 stokMasuk: req.body.stok,
-                dateInProduct: new Date()
+                dateInProduct: moment().tz('Asia/Jakarta').format()
             })
         }
 
@@ -181,7 +181,7 @@ export const addStock = async (req, res) => {
         // update total stock in products collection
         await Products.updateOne({ kodeProduk }, {
             stok: req.body.stokBaru + product.stok,
-            updatedAt: new Date()
+            updatedAt: moment().tz('Asia/Jakarta').format()
         })
 
         // update rak terisi
@@ -195,7 +195,7 @@ export const addStock = async (req, res) => {
             kodeProduk: kodeProduk,
             namaProduk: product.namaProduk,
             stokMasuk: req.body.stokBaru,
-            dateInProduct: new Date()
+            dateInProduct: moment().tz('Asia/Jakarta').format()
         })
 
         res.json({ msg: `Berhasil menambah stok ${product.namaProduk}!` })
