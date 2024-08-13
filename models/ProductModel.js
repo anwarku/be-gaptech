@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import moment from "moment-timezone";
 const { Schema } = mongoose;
 
 const productSchema = new Schema(
@@ -14,8 +15,8 @@ const productSchema = new Schema(
     harga: { type: Number, required: true },
     stok: { type: Number, required: true },
     posisiRak: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now() },
-    updatedAt: { type: Date, default: Date.now() }
+    createdAt: { type: Date, default: moment().tz("Asia/Jakarta").format() },
+    updatedAt: { type: Date, default: moment().tz("Asia/Jakarta").format() },
   },
   { versionKey: false }
 );

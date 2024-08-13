@@ -2,6 +2,7 @@ import Products from "../models/ProductModel.js";
 import InProducts from "../models/InProductModel.js";
 import Racks from "../models/RackModel.js";
 import Transaction from "../models/TransactionModel.js";
+import moment from "moment-timezone";
 
 function generateRandomNumber(length) {
     let randomNumber = '';
@@ -85,7 +86,7 @@ export const addProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     const kodeProduk = req.params.kodeProduk
-    req.body.updatedAt = new Date()
+    req.body.updatedAt = moment().tz('Asia/Jakarta').format()
     try {
         // cek apakah produk ada dalam database
         const cekProduk = await Products.findOne({ kodeProduk })

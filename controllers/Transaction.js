@@ -1,3 +1,4 @@
+import moment from "moment-timezone";
 import OutProducts from "../models/OutProductModel.js";
 import Products from "../models/ProductModel.js";
 import Racks from "../models/RackModel.js";
@@ -271,7 +272,7 @@ export const updateTransaction = async (req, res) => {
             alamatPengiriman: req.body.alamatPengiriman,
             barangKeluar: barangKeluarBaru,
             totalHarga: totalHargaBaru.reduce((accumulator, currentValue) => accumulator + currentValue, 0),
-            terakhirDiubah: Date.now()
+            terakhirDiubah: moment().tz('Asia/Jakarta').format()
         }
 
         // Mengupdate data pada collection transactions

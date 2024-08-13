@@ -8,6 +8,14 @@ import Racks from "../models/RackModel.js";
 import mongoose from "mongoose";
 
 async function transaksiMasuk() {
+    // Menghapus semua collections kecuali collection user
+    const colls = await mongoose.connection.listCollections()
+    for (const coll of colls) {
+        if (coll.name == 'users') continue
+        await mongoose.connection.dropCollection(coll.name)
+        // console.log(coll.name)
+    }
+
     // Menambahkan data produk baru
     const dataProduk = [
         { nama: "PaperOne Kertas A3 75gr Copier (1 rim)", harga: 105000 },
@@ -49,6 +57,13 @@ async function transaksiMasuk() {
             for (let k = 1; k <= 4; k++) {
                 for (let l = 1; l <= 4; l++) {
                     rakArray.push(`L${i}-${j}-${k}-${l}`);
+                    await Racks.create(
+                        {
+                            rak: `L${i}-${j}-${k}-${l}`,
+                            kapasitas: 500,
+                            terisi: 0
+                        }
+                    )
                 }
             }
         }
@@ -84,6 +99,7 @@ async function transaksiMasuk() {
 
     const allProducts = await Products.find()
 
+    // Menambahkan data stok masuk
     for (let b = 0; b < 250; b++) {
         const randProduct = faker.helpers.arrayElement(allProducts)
         const stokBaru = faker.number.int({ min: 20, max: 50 })
@@ -112,7 +128,7 @@ async function transaksiMasuk() {
                 dateInProduct: faker.date.between(
                     {
                         from: new Date("2024-01-01"),
-                        to: new Date("2024-06-14")
+                        to: new Date("2024-08-12")
                     }
                 )
             }
@@ -130,7 +146,7 @@ async function transaksiMasuk() {
 
 async function transaksiKeluar() {
 
-    for (let j = 0; j < 70; j++) {
+    for (let j = 0; j < 90; j++) {
 
         // Mendapatkan semua data products
         const allProducts = await Products.find()
@@ -185,7 +201,7 @@ async function transaksiKeluar() {
 
 
         // Mendefinisikan data untuk tiap transaksi
-        const current = faker.date.between({ from: "2024-02-15", to: "2024-06-10" });
+        const current = faker.date.between({ from: "2024-02-15", to: "2024-08-10" });
         const transaction = {
             idTransaksi: `${current.getFullYear()}${String(current.getMonth() + 1).padStart(2, "0")}${String(current.getDate()).padStart(2, "0")}${faker.string.numeric({ length: 4 })}`,
 
