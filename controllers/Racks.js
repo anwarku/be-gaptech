@@ -77,7 +77,7 @@ export const getAvailableRacks = async (req, res) => {
 // Untuk mendapatkan semua data rak yang kosong
 export const getEmptyRacks = async (req, res) => {
     try {
-        const emptyRacks = await Racks.find({ terisi: 0 }, { _id: 0 }).sort({ rak: 1 })
+        const emptyRacks = await Racks.find({ terisi: 0, produk: null }, { _id: 0 }).sort({ rak: 1 })
 
         res.json(emptyRacks)
     } catch (error) {
