@@ -67,7 +67,7 @@ export const getSuccessTransactionsLast30Days = async (req, res) => {
                     $lt: new Date()
                 }
             }, { _id: 0 }
-        ).sort({ tanggalTransaksi: 1 })
+        ).sort({ tanggalTransaksi: -1 })
 
         res.json(lastMonthData)
     } catch (error) {
