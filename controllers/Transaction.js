@@ -116,7 +116,9 @@ export const saveTransaction = async (req, res) => {
                 namaProduk: outProduct.namaProduk,
                 kuantitas: item.kuantitas,
                 hargaSatuan: outProduct.harga,
-                subTotal: outProduct.harga * item.kuantitas
+                subTotal: outProduct.harga * item.kuantitas,
+                tanggalTransaksi: moment().tz('Asia/Jakarta').format(),
+                terakhirDiubah: moment().tz('Asia/Jakarta').format()
             }
             totalHarga.push(outProduct.subTotal)
             barangKeluar.push(outProduct)
@@ -194,7 +196,7 @@ export const updateStatus = async (req, res) => {
         // Mengupdate status ke selesai
         await Transaction.updateOne(
             { idTransaksi },
-            { status: 1 }
+            { status: 1, terakhirDiubah: moment().tz('Asia/Jakarta').format() }
         )
 
         // Menambahkan data barang keluar ke history outproducts
@@ -202,7 +204,8 @@ export const updateStatus = async (req, res) => {
             const dataBarang = {
                 kodeProduk: itemBarangKeluar.kodeProduk,
                 namaProduk: itemBarangKeluar.namaProduk,
-                stokKeluar: itemBarangKeluar.kuantitas
+                stokKeluar: itemBarangKeluar.kuantitas,
+                dateOutProduct: moment().tz('Asia/Jakarta').format()
             }
 
             // Menambahkan data ke dalam database
